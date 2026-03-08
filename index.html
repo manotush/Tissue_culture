@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Protocol Checklist · Tissue Culture Checklist & Protocol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #eef3f9;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-card {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px #1a344d;
+            overflow: hidden;
+        }
+        /* Compact controls */
+        .control-bar {
+            background: #0b2b44;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+        .control-bar h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge {
+            background: #234e7c;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .input-row {
+            background: #f0f7ff;
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            border-bottom: 1px solid #c9d9ec;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .field label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #1f4670;
+        }
+        .field select, .field input {
+            background: white;
+            border: 1px solid #b9cee8;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            min-width: 150px;
+        }
+        .performer-field {
+            background: #e4edff;
+            border-radius: 30px;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .performer-field input {
+            border: none;
+            background: transparent;
+            padding: 6px 0;
+            min-width: 130px;
+            font-size: 0.8rem;
+        }
+        .print-btn {
+            background: #0b2b44;
+            color: white;
+            border: 1px solid #4477aa;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-left: auto;
+            cursor: pointer;
+        }
+        /* PRINT AREA - SINGLE PAGE OPTIMIZED */
+        .print-section {
+            padding: 15px;
+            background: white;
+        }
+        .checklist-paper {
+            background: white;
+            border: 1px solid #c0d4ec;
+            border-radius: 20px;
+            padding: 18px;
+            font-size: 0.8rem;
+        }
+        /* Header */
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #10345e;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+        .print-header h1 {
+            font-size: 1.3rem;
+            color: #002549;
+            font-weight: 500;
+        }
+        .performer-tag {
+            background: #ebf3ff;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+        .protocol-title {
+            font-size: 1rem;
+            margin: 5px 0 10px;
+            color: #134079;
+            border-left: 3px solid #4d8fc5;
+            padding-left: 10px;
+        }
+        /* Two-column layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 5px 0;
+        }
+        .composition-head {
+            font-weight: 600;
+            color: #1d3e6b;
+            margin: 8px 0 4px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #d0e0f0;
+            padding-bottom: 2px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+        th {
+            background: #e5effa;
+            padding: 3px 4px;
+            font-weight: 600;
+            color: #1b3f64;
+            border-bottom: 1px solid #9bb5d6;
+        }
+        td {
+            padding: 3px 4px;
+            border-bottom: 1px solid #dae3f0;
+        }
+        .total-row {
+            background: #ebf3ff;
+            font-weight: 600;
+        }
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px 10px;
+            background: #f7faff;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #cbddf2;
+            margin: 8px 0;
+            font-size: 0.7rem;
+        }
+        .material-item {
+            display: flex;
+            gap: 4px;
+        }
+        .mat-num {
+            color: #1b4c7c;
+            font-weight: 600;
+            min-width: 18px;
+        }
+        /* RESIZED FLOWCHART - Smaller for single page */
+        .flowchart-container {
+            margin: 8px 0 0;
+            border-top: 1px dashed #a0bad9;
+            padding-top: 8px;
+        }
+        .flowchart-title {
+            font-weight: 600;
+            color: #003770;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+        }
+        .flowchart-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;  /* Reduced height for single page */
+            width: auto;
+            object-fit: contain;
+            border: 1px solid #bed6f0;
+            border-radius: 6px;
+            background: white;
+            display: block;
+            margin: 0 auto;
+        }
+        /* Volume control */
+        .volume-control {
+            font-size: 0.7rem;
+            background: #e4effa;
+            padding: 2px 8px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 4px;
+        }
+        .volume-control input {
+            width: 55px;
+            border: 1px solid #acc6e3;
+            border-radius: 16px;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+        }
+        .footer-note {
+            display: flex;
+            justify-content: space-between;
+            color: #346392;
+            font-size: 0.65rem;
+            border-top: 1px dashed #a3bde0;
+            padding-top: 5px;
+            margin-top: 8px;
+        }
+
+        @media print {
+            body { background: white; padding: 0.1in; }
+            .control-bar, .input-row, .print-btn { display: none; }
+            .main-card { box-shadow: none; border-radius: 0; }
+            .print-section { padding: 0; }
+            .checklist-paper { border: none; padding: 10px; }
+            .flowchart-img { max-height: 400px; } /* Even smaller in print */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="main-card">
+    <!-- Compact controls -->
+    <div class="control-bar">
+        <h2>📋 Tissue Culture Checklist & Protocol <span class="badge">Developed by: SoftCulture</span></h2>
+    </div>
+    
+    <div class="input-row">
+        <div class="field">
+            <label>Protocol</label>
+            <select v-model="selectedKey" @change="loadProtocol">
+                <option value="cellSeeding">Cell Seeding (MDCK)</option>
+                <option value="virusTitration">Virus Titration (TCID50)</option>
+                <option value="elisa">ELISA</option>
+                <option value="virusCulture">Virus Culture</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Main volume (ml)</label>
+            <input type="number" step="0.1" v-model.number="mainVolume" @input="scaleMain">
+        </div>
+        <div class="performer-field">
+            <span>👤</span>
+            <input type="text" v-model="performerName" placeholder="Enter Name">
+        </div>
+        <button class="print-btn" @click="window.print()">🖨️ Print Single Page</button>
+    </div>
+
+    <!-- PRINT AREA - SINGLE PAGE -->
+    <div class="print-section" id="printSection">
+        <div class="checklist-paper">
+            <!-- HEADER with Enter Name from Excel -->
+            <div class="print-header">
+                <h1>Tissue Culture Materials Checklist</h1>
+                <div class="performer-tag">Prepared by: {{ performerName || 'Enter Name' }}</div>
+            </div>
+            <div class="protocol-title">Materials For: {{ protocolName }} · {{ mainVolume.toFixed(1) }} mL</div>
+
+            <!-- Two-column layout for compositions -->
+            <div class="two-column">
+                <!-- Left column: Main composition -->
+                <div>
+                    <div class="composition-head">{{ mainCompTitle }}</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SL.No.</th>
+                                <th>Reagents</th>
+                                <th>%</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,i) in mainCompItems" :key="i">
+                                <td>{{ i+1 }}.</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.percent !== null ? item.percent : '—' }}</td>
+                                <td>{{ formatQty(item.quantity) }} {{ item.unit }}</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="3" style="text-align:right;">Total =</td>
+                                <td>{{ formatQty(mainTotal) }} mL</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Right column: Second composition (for ELISA) -->
+                <div v-if="secondItems.length">
+                    <div class="composition-head">{{ secondTitle }}</div>
+                    <div class="volume-control" v-if="selectedKey === 'elisa'">
+                        ⚙️ Volume: <input type="number" step="0.1" v-model.number="secondVolume" @input="scaleSecond"> mL
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SL.No.</th>
+                                <th>Reagents</th>
+                                <th>%</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,i) in secondItems" :key="i">
+                                <td>{{ i+1 }}.</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.percent !== null ? item.percent : '—' }}</td>
+                                <td>{{ formatQty(item.quantity) }} {{ item.unit }}</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="3" style="text-align:right;">Total =</td>
+                                <td>{{ formatQty(secondTotal) }} {{ secondUnit }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Materials list -->
+            <div class="composition-head">Materials</div>
+            <div class="materials-grid">
+                <div v-for="(mat, idx) in materialLines" :key="idx" class="material-item">
+                    <span class="mat-num">{{ idx+1 }}.</span>
+                    <span>{{ mat }}</span>
+                </div>
+                <div v-if="!materialLines.length" style="grid-column:1/-1; color:#8699b3;">No materials listed</div>
+            </div>
+
+            <!-- RESIZED FLOWCHART IMAGES - Single instance each -->
+            <div class="flowchart-container" v-if="selectedKey === 'cellSeeding'">
+                <div class="flowchart-title">📋Cell Seeding Procedure</div>
+                <img class="flowchart-img" src="Cell Seeding Procedure.png" 
+                     alt="Cell Seeding Flowchart"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'80\'%3E%3Crect width=\'400\' height=\'80\' fill=\'%23f8f8f8\'/%3E%3Ctext x=\'20\' y=\'40\' font-family=\'Arial\' font-size=\'10\'%3ECell Seeding Procedure.png%3C/text%3E%3Ctext x=\'20\' y=\'60\' font-family=\'Arial\' font-size=\'8\' fill=\'%23666\'%3E(place in same folder)%3C/text%3E%3C/svg%3E'">
+            </div>
+            
+            <div class="flowchart-container" v-if="selectedKey === 'virusTitration'">
+                <div class="flowchart-title">📋Virus Titration Procedure</div>
+                <img class="flowchart-img" src="Virus Titration Procedure.png" 
+                     alt="Virus Titration Flowchart"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'80\'%3E%3Crect width=\'400\' height=\'80\' fill=\'%23f8f8f8\'/%3E%3Ctext x=\'20\' y=\'40\' font-family=\'Arial\' font-size=\'10\'%3EVirus Titration Procedure.png%3C/text%3E%3Ctext x=\'20\' y=\'60\' font-family=\'Arial\' font-size=\'8\' fill=\'%23666\'%3E(place in same folder)%3C/text%3E%3C/svg%3E'">
+            </div>
+            
+            <div class="flowchart-container" v-if="selectedKey === 'elisa'">
+                <div class="flowchart-title">📋ELISA Procedure</div>
+                <img class="flowchart-img" src="ELISA Procedure.png" 
+                     alt="ELISA Flowchart"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'80\'%3E%3Crect width=\'400\' height=\'80\' fill=\'%23f8f8f8\'/%3E%3Ctext x=\'20\' y=\'40\' font-family=\'Arial\' font-size=\'10\'%3EELISA Procedure.png%3C/text%3E%3Ctext x=\'20\' y=\'60\' font-family=\'Arial\' font-size=\'8\' fill=\'%23666\'%3E(place in same folder)%3C/text%3E%3C/svg%3E'">
+            </div>
+            
+            <div class="flowchart-container" v-if="selectedKey === 'virusCulture'">
+                <div class="flowchart-title">Virus Culture Media Preparation</div>
+                <div style="font-style:italic; color:#888; padding:5px;">No flowchart available</div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer-note">
+                <span>Custom volume: {{ mainVolume.toFixed(1) }} mL</span>
+                <span>{{ currentDate }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const { createApp, ref, computed, watch } = Vue;
+
+    const app = createApp({
+        setup() {
+            // Protocol data UPDATED from Material_checklist.xlsx
+            const protocols = {
+                cellSeeding: {
+                    name: 'Cell Seeding Procedure',
+                    mainTitle: 'MDCK Media Composition:',
+                    mainBaseTotal: 100,
+                    mainItems: [
+                        { name: 'DMEM + NaHCO3', percent: null, quantity: 81.70, unit: 'mL' },
+                        { name: 'P/S', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: 'F/Z', percent: 0.8, quantity: 0.80, unit: 'mL' },
+                        { name: 'L-glutamine', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: '7.5% BSA', percent: 2.5, quantity: 2.50, unit: 'mL' },
+                        { name: 'FBS', percent: 10, quantity: 10, unit: 'mL' },
+                        { name: 'Na-pyruvate', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: 'HEPES', percent: 2, quantity: 2, unit: 'mL' }
+                    ],
+                    materials: [
+                        'Water bath set at 37°C',
+                        '5 mL 1x trypsin EDTA',
+                        '10 mL 1x PBS',
+                        '30 mL cell culture media',
+                        'Pipette Aid',
+                        '10 mL glass pipette (3 pcs)',
+                        'Micro pipette',
+                        'Flat bottom 96 well plate',
+                        'Micro-centrifuge tube',
+                        '50 mL Falcon tube (2 pcs)'
+                    ]
+                },
+                virusTitration: {
+                    name: 'Virus Titration Procedure',
+                    mainTitle: 'TCID50 Assay Media Composition:',
+                    mainBaseTotal: 100,  // Updated to 100ml from Excel
+                    mainItems: [
+                        { name: 'DMEM + NaHCO3', percent: null, quantity: 91.20, unit: 'mL' },
+                        { name: 'P/S', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: 'F/Z', percent: 0.8, quantity: 0.80, unit: 'mL' },
+                        { name: 'L-glutamine', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: '7.5% BSA', percent: 4, quantity: 4, unit: 'mL' },
+                        { name: 'HEPES', percent: 2, quantity: 2, unit: 'mL' }
+                    ],
+                    materials: [
+                        'Plate Map',
+                        'Water bath at 37°C',
+                        'TCID50 assay media',
+                        'TPCK-Trypsin (2µg/mL)',
+                        '20 mL 1x PBS',
+                        'Micro centrifuge tube/ Cryovial (3.5 mL)',
+                        '50 box',
+                        'Micro pipette (1 mL and 200 µL)',
+                        'Multichannel pipette (100 µL and 300 µL)',
+                        'V-bottom plate',
+                        '2 reservoirs (Autoclavable)',
+                        'Prepare 12 mL/plate cold fixative and store at -30°C'
+                    ]
+                },
+                elisa: {
+                    name: 'ELISA Procedure',
+                    mainTitle: 'Wash Buffer Composition:',
+                    mainBaseTotal: 1000,  // Updated to 1000mL from Excel
+                    mainItems: [
+                        { name: '1X PBS', percent: null, quantity: 997, unit: 'mL' },
+                        { name: 'Tween 20', percent: 0.3, quantity: 3, unit: 'mL' }
+                    ],
+                    secondTitle: 'Antibody Diluent Composition:',
+                    secondBaseTotal: 150,  // Updated to 150mL from Excel
+                    secondUnit: 'mL/g',
+                    secondItems: [
+                        { name: 'Wash buffer', percent: null, quantity: 150, unit: 'mL' },
+                        { name: 'Skim milk', percent: 5, quantity: 7.5, unit: 'g' }  // Updated to 7.5g
+                    ],
+                    materials: [
+                        'Water bath at 37°C',
+                        '250 mL Wash buffer',
+                        '25 mL antibody diluent',
+                        '25 mL 1x PBS',
+                        '12 mL cold fixative',
+                        '12 mL TMB',
+                        '12 mL H2SO4',
+                        '4 reservoir',
+                        'Micro pipette (10 µL, 100 µL)',
+                        'Multichannel pipette (100 µL and 300 µL)'
+                    ]
+                },
+                virusCulture: {
+                    name: 'Virus Culture Media Preparation',
+                    mainTitle: 'Media Composition:',
+                    mainBaseTotal: 100,
+                    mainItems: [
+                        { name: 'DMEM + NaHCO3', percent: null, quantity: 92.2, unit: 'mL' },
+                        { name: 'P/S', percent: 1, quantity: 1, unit: 'mL' },
+                        { name: 'F/Z', percent: 0.8, quantity: 0.8, unit: 'mL' },
+                        { name: '7.5% BSA', percent: 4, quantity: 4, unit: 'mL' },
+                        { name: 'HEPES', percent: 2, quantity: 2, unit: 'mL' }
+                    ],
+                    materials: []  // Empty as per Excel Sheet4
+                }
+            };
+
+            // State
+            const selectedKey = ref('cellSeeding');
+            const performerName = ref('');
+            const mainVolume = ref(100);
+            const secondVolume = ref(150);  // Default for ELISA antibody diluent
+            const currentProtocol = ref(protocols.cellSeeding);
+            const mainCompItems = ref([]);
+            const secondItems = ref([]);
+            const materialLines = ref([]);
+
+            // Computed
+            const protocolName = computed(() => currentProtocol.value.name);
+            const mainCompTitle = computed(() => currentProtocol.value.mainTitle || '');
+            const mainTotal = computed(() => mainCompItems.value.reduce((s,i) => s + (i.quantity||0), 0));
+            const secondTotal = computed(() => secondItems.value.reduce((s,i) => s + (i.quantity||0), 0));
+            const secondTitle = computed(() => currentProtocol.value.secondTitle || '');
+            const secondUnit = computed(() => currentProtocol.value.secondUnit || 'mL');
+            const currentDate = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+
+            // Methods
+            function loadProtocol() {
+                const p = protocols[selectedKey.value];
+                currentProtocol.value = p;
+                mainCompItems.value = p.mainItems.map(i => ({...i}));
+                secondItems.value = p.secondItems ? p.secondItems.map(i => ({...i})) : [];
+                materialLines.value = p.materials ? [...p.materials] : [];
+                mainVolume.value = p.mainBaseTotal;
+                secondVolume.value = p.secondBaseTotal || 150;
+                scaleMain();
+                if (secondItems.value.length) scaleSecond();
+            }
+
+            function scaleMain() {
+                const base = currentProtocol.value.mainBaseTotal;
+                if (!base) return;
+                const scale = mainVolume.value / base;
+                mainCompItems.value = currentProtocol.value.mainItems.map(i => ({
+                    ...i, 
+                    quantity: i.percent !== null 
+                        ? (i.percent / 100) * mainVolume.value  // Percentage-based calculation
+                        : i.quantity !== null ? i.quantity * scale : null
+                }));
+            }
+
+            function scaleSecond() {
+                if (!currentProtocol.value.secondItems) return;
+                const base = currentProtocol.value.secondBaseTotal;
+                if (!base) return;
+                const scale = secondVolume.value / base;
+                secondItems.value = currentProtocol.value.secondItems.map(i => ({
+                    ...i, 
+                    quantity: i.unit === 'g' 
+                        ? (i.percent !== null ? (i.percent / 100) * secondVolume.value : i.quantity)  // Scale milk with percentage
+                        : i.percent !== null ? (i.percent / 100) * secondVolume.value : i.quantity * scale
+                }));
+            }
+
+            function formatQty(val) {
+                if (val === null || val === undefined) return '—';
+                return (Math.round(val * 100) / 100).toFixed(2);
+            }
+
+            // Init
+            loadProtocol();
+            watch(selectedKey, loadProtocol);
+            watch(mainVolume, scaleMain);
+            watch(secondVolume, scaleSecond);
+
+            return {
+                selectedKey, performerName, mainVolume, secondVolume,
+                currentProtocol, mainCompItems, secondItems, materialLines,
+                protocolName, mainCompTitle, mainTotal, secondTotal,
+                secondTitle, secondUnit, currentDate,
+                scaleMain, scaleSecond, formatQty, window
+            };
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
